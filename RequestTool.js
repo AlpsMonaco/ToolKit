@@ -1,7 +1,10 @@
+<<<<<<< HEAD
 var test = () => {
     window.Bridge.p()
 }
 
+=======
+>>>>>>> 60a1e225046780a1b1d41e99ce1c883464185ddc
 //通用的请求工具
 //动态添加post表单数据
 //动态添加header
