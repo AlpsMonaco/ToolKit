@@ -1,3 +1,7 @@
+var test = () => {
+    window.Bridge.p()
+}
+
 //通用的请求工具
 //动态添加post表单数据
 //动态添加header
