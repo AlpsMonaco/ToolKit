@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <script src="vue.js"></script>
+</head>
+
+<body>
+  <h1 style='margin-left: 20px;'>时间转换</h1>
+  <div id='TimeConvert'>
+    <ul>
+      <li>日期转时间戳/时间戳转日期</li>
+      <li>日期的格式为 e.g 2006-01-02 15:04:05 </li>
+      <li>时间戳支持秒，毫秒转换，时间戳超过10位则为毫秒</li>
+    </ul>
+
+    <input type='text' placeholder="输入时间或时间戳，自动识别" v-model='inputTime' style="margin-left: 20px;margin-top: 10px;font-size: 16px;font-family: Arial, Helvetica, sans-serif;" v-on:click='selectInputTimeAll'>
+    <button v-on:click='convertTime' style="margin-left: 5px;">转换</button>
+    <p style="margin-left: 20px"><span style="font-size: 16px;font-family: Arial, Helvetica, sans-serif;" v-html='convertResult'></span></p>
+  </div>
+
+  <h1 style='margin-left: 20px;margin-top: 50px;'>接口请求</h1>
+  <div id='RequestTool'>
+    <input type='text' placeholder="输入URL" style="padding-left: 5px;margin-left: 20px;margin-top: 10px;width: 500px;font-size: 15px;font-family: Arial, Helvetica, sans-serif;" v-model="url">
+    <p style="margin-left: 20px;">
+      <select style="width: 70px;height: 30px;font-size: 15px;font-family: Arial;vertical-align: middle;" v-model='method'>
+        <option v-for="method in methodList">
+          {{ method }}
+        </option>
+      </select>
+      <button style="width: 60px;height: 30px;font-size: 15px;font-family: Arial;vertical-align: middle" v-on:click="requestWithAxios">发送</button>
+    </p>
+
+    <p style="margin-left: 20px;" v-show="showContentType">
+      <span style="font-size: 15px;">Content-Type :</span>
+      <select style="width: 300px;height: 25px;font-size: 15px;" v-model='ContentType'>
+        <option v-for="contentType in ContentTypeList">
+          {{ contentType }}
+        </option>
+      </select>
+    </p>
+
+    <p style="margin-left: 20px;" v-show="addContentType">
+      <span style="font-size: 15px;"> 添加 Content-Type :</span> <span><input type="text" style="width: 255px;height: 20px;font-size: 15px;" v-model='customizedContentType'>
+        <button style="width: 30px;" v-on:click='confirmAddContentType'>✔</button>
+        <button style="margin-left: 5px;" v-on:click='cancelAddContentType'>❌</button></span>
+    </p>
+
+    <div v-show="showFormList">
+      <p style="margin-left: 20px;">
+        <span>添加参数</span>
+        <button v-on:click="addFormList">➕</button>
+      </p>
+      <!-- todo: 动态添加组件，与post参数绑定 -->
+
+      <p v-for="(obj,index) in formList" style="margin-left: 20px;"><span>Key: </span> <input type="text" style="width: 120px;vertical-align: middle;" v-model="obj.key"> <span style="margin-left:15px;vertical-align: middle;">Value: </span> <input type="text" style="width: 120px;vertical-align: middle;" v-model="obj.value"> <button v-on:click="popFormList(index)" style="vertical-align: middle;">➖</button> </p>
+    </div>
+
+    <div v-show="showJsonArea">
+      <textarea style="resize: none;margin-left: 20px;width: 400px;height:300px;vertical-align: middle;" placeholder="在此填写JSON数据" v-model="jsonInput"></textarea>
+      <button style="vertical-align: middle;height: 40px;font-size: 15px;margin-left: 10px;font-family: Monaco;" v-on:click="formatJsonInput">格式化</button>
+    </div>
+    <div style="margin-left: 20px;margin-top:20px;font-family: monospace;" v-html='response'></div>
+  </div>
+
+</body>
+
+
+<script src='TimeConvert.js'></script>
+<script src="axios.min.js"></script>
+<script src='RequestTool.js'></script>
+
+</html>
