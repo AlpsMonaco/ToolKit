@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-var test = () => {
-    window.Bridge.p()
-}
-
-=======
->>>>>>> 60a1e225046780a1b1d41e99ce1c883464185ddc
 //通用的请求工具
 //动态添加post表单数据
 //动态添加header
@@ -14,8 +7,18 @@ var RequestTool = new Vue({
     el: '#RequestTool',
 
     created: function () {
-        this.method = this.methodList[0]
-        this.ContentType = this.ContentTypeList[0]
+        if (!window.preload.Session.session.contentType) {
+            this.ContentType = this.ContentTypeList[0]
+        } else {
+            this.ContentType = window.preload.Session.session.contentType
+        }
+
+        if (!window.preload.Session.session.method) {
+            this.method = this.methodList[0]
+        } else {
+            this.method = window.preload.Session.session.method
+        }
+
     },
 
     data: {
@@ -28,10 +31,10 @@ var RequestTool = new Vue({
         methodList: ['POST', 'GET'],
         ContentTypeList: ['application/json', 'application/x-www-form-urlencoded',],
 
-        showFormList: false,
-        showJsonArea: false,
         addContentType: false,
-        showContentType: false,
+        // showFormList: false,
+        // showJsonArea: false,
+        // showContentType: false,
 
         customizedContentType: '',
 
@@ -39,21 +42,26 @@ var RequestTool = new Vue({
         jsonInput: ""
     },
 
-    watch: {
-        method: function (selectedMethod) {
-            if (selectedMethod == 'GET') {
-                this.hideFormArea()
-                this.showContentType = false
-                return
+    computed: {
+        showFormList: function () {
+            if (this.method == 'GET' || this.ContentType != 'application/x-www-form-urlencoded') {
+                return false
             }
 
-            this.switchFormAreaByContentType(this.ContentType)
-            this.showContentType = true
+            return true
         },
 
-        ContentType: function (selectedContentType) {
-            this.switchFormAreaByContentType(selectedContentType)
+        showJsonArea: function () {
+            if (this.method == 'GET' || this.ContentType != 'application/json') {
+                return false
+            }
+
+            return true
         },
+
+        showContentType: function () {
+            return this.method != 'GET'
+        }
     },
 
     methods: {
@@ -97,6 +105,7 @@ var RequestTool = new Vue({
             try {
                 f(this.jsonInput)
             } catch (error) {
+                console.log(error)
                 return
             }
 
@@ -105,24 +114,6 @@ var RequestTool = new Vue({
             }
 
             this.jsonInput = JSON.stringify(data, null, 4)
-        },
-
-        hideFormArea: function () {
-            this.showFormList = false
-            this.showJsonArea = false
-        },
-
-        switchFormAreaByContentType: function (selectedContentType) {
-            this.hideFormArea()
-            if (selectedContentType == '自定义') {
-                this.addContentType = true
-            } else if (selectedContentType == "application/json") {
-                this.showJsonArea = true
-            } else if (selectedContentType == "application/x-www-form-urlencoded") {
-                this.showFormList = true
-            } else {
-                this.showFormList = true
-            }
         },
 
         getParam: function () {
@@ -159,6 +150,9 @@ var RequestTool = new Vue({
         },
 
         requestWithAxios: function () {
+            window.preload.Session.setLastContentType(this.ContentType)
+            window.preload.Session.setLastRequestMethod(this.method)
+
             this.getAxios().then(
                 response => this.printResponse(response.data)
             ).catch(
