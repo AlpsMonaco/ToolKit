@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, Menu, ipcMain, nativeTheme } = require('electron')
+const { app, BrowserWindow, Menu, nativeTheme } = require('electron')
 const path = require("path")
 const ScriptPath = __dirname
 

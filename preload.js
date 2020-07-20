@@ -9,5 +9,5 @@ Session.loadFile().then(() => {
 })
 
 window.preload = {
-    Session:Session
+    Session: Session
 }

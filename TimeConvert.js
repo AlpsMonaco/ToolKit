@@ -5,12 +5,14 @@ var TimeConvert = new Vue({
     el: '#TimeConvert',
 
     data: {
+        inputTime: '',
         convertResult: "&nbsp",
-        inputTime: ''
+        timeInterval: null,
+        isComputed: true
     },
 
     created: function () {
-        this.inputTime = this.convertTimestampToDate(this.getCurrentTimestamp())
+        this.ticker()
     },
 
     methods: {
@@ -90,6 +92,14 @@ var TimeConvert = new Vue({
 
         selectInputTimeAll: function (e) {
             e.toElement.select()
+            clearInterval(this.timeInterval)
+        },
+
+        ticker: function () {
+            this.timeInterval = setInterval(() => {
+                this.inputTime = this.convertTimestampToDate(this.getCurrentTimestamp())
+                this.convertTime()
+            }, 500)
         }
     }
 })
