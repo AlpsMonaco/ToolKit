@@ -1,2 +1,4 @@
 node_modules
 toolkit-win32-x64
+session.json
+toolkit.log
