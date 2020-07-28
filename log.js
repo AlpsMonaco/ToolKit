@@ -19,7 +19,7 @@ const log = {
         var MM = date.getMonth() + 1
         MM = MM < 10 ? '0' + MM : MM
 
-        var DD = date.getDay()
+        var DD = date.getDate()
         DD = DD < 10 ? '0' + DD : DD
 
         var hh = date.getHours()

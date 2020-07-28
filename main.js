@@ -14,7 +14,7 @@ app.whenReady().then(() => {
 
 var createMainWindow = () => {
   var window = new BrowserWindow({
-    width: 1600,
+    width: 600,
     height: 900,
     webPreferences: {
       preload: path.join(ScriptPath, 'preload.js'),
@@ -28,8 +28,10 @@ var createMainWindow = () => {
 
 ipcMain.on('switchDevTools', (event, args) => {
   if (event.sender.isDevToolsOpened()) {
+    window.setSize(600, 900, true)
     event.sender.closeDevTools()
   } else {
+    window.setSize(1400, 900, true)
     event.sender.openDevTools()
   }
 })

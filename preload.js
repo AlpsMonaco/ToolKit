@@ -15,7 +15,7 @@ var switchDevTools = () => {
 
 window.preload = {
     Session: Session,
-    testFunc: switchDevTools
+    switchDevTools: switchDevTools
 }
 
 window.addEventListener('keydown', (ev) => {

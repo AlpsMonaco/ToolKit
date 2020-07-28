@@ -55,8 +55,13 @@ const Session = {
         await excludeRW.updateFile(Session.filePath, data)
     },
 
-    setLastContentType: contentType => { Session.session.contentType = contentType; Session.updateFile().catch(err => log.error(err)) },
-    setLastRequestMethod: method => { Session.session.method = method; Session.updateFile().catch(err => log.error(err)) }
+    loadHistorySession: async () => {
+        await Session.loadFile()
+    },
+
+    updateSessionHistory: () => {
+        Session.updateFile().catch(err => log.error(err)).then(() => log.info('save session successfully.'))
+    }
 }
 
 exports.Session = Session
