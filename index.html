@@ -61,8 +61,10 @@
       <textarea style="resize: none;margin-left: 20px;width: 400px;height:300px;vertical-align: middle;" placeholder="在此填写JSON数据" v-model="jsonInput"></textarea>
       <button style="vertical-align: middle;height: 40px;font-size: 15px;margin-left: 10px;font-family: Monaco;" v-on:click="formatJsonInput">格式化</button>
     </div>
-    <pre style="margin-left: 20px;margin-top:20px;font-family: monospace;" v-html='response'></pre>
+    <p style="margin-left: 20px;margin-top:20px;font-family: monospace;width: 500px;word-break: break-all;">{{ response }}</p>
   </div>
+
+  <button onclick="window.preload.testFunc()">test</button>
 
 </body>
 

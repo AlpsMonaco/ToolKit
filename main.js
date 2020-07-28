@@ -1,13 +1,15 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, Menu, nativeTheme } = require('electron')
+const { app, BrowserWindow, Menu, MenuItem, nativeTheme, ipcMain } = require('electron')
 const path = require("path")
 const ScriptPath = __dirname
+var window
 
 nativeTheme.themeSource = 'light'
 
 app.whenReady().then(() => {
   window = createMainWindow()
   Menu.setApplicationMenu(null)
+
 })
 
 var createMainWindow = () => {
@@ -19,8 +21,15 @@ var createMainWindow = () => {
     }
   })
 
-  window.webContents.openDevTools()
   window.loadFile('index.html')
 
   return window
 }
+
+ipcMain.on('switchDevTools', (event, args) => {
+  if (event.sender.isDevToolsOpened()) {
+    event.sender.closeDevTools()
+  } else {
+    event.sender.openDevTools()
+  }
+})

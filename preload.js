@@ -1,5 +1,6 @@
 const { log } = require('./log')
 const { Session } = require('./StaticData')
+const { ipcRenderer } = require('electron')
 
 //Load last session preferences.
 Session.loadFile().then(() => {
@@ -8,6 +9,17 @@ Session.loadFile().then(() => {
     log.error(err)
 })
 
-window.preload = {
-    Session: Session
+var switchDevTools = () => {
+    ipcRenderer.send('switchDevTools')
 }
+
+window.preload = {
+    Session: Session,
+    testFunc: switchDevTools
+}
+
+window.addEventListener('keydown', (ev) => {
+    if (ev.key == 'F12') {
+        switchDevTools()
+    }
+}, true)

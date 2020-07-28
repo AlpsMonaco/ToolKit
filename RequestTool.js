@@ -154,7 +154,7 @@ var RequestTool = new Vue({
             window.preload.Session.setLastRequestMethod(this.method)
 
             this.getAxios().then(
-                response => this.printResponse(response.data)
+                response => this.printResponse((response.data))
             ).catch(
                 error => { this.printResponse('err'); console.log(error) }
             )
