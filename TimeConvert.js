@@ -99,7 +99,7 @@ var TimeConvert = new Vue({
             this.timeInterval = setInterval(() => {
                 this.inputTime = this.convertTimestampToDate(this.getCurrentTimestamp())
                 this.convertTime()
-            }, 500)
+            }, 100)
         }
     }
 })

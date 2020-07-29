@@ -2,7 +2,7 @@ const fs = require('fs')
 const { log } = require('./log')
 
 
-//Update file or truncate file before write.
+//updateFile means create a file or truncate one file and write new data.
 //Return a Promise object.
 const excludeRW = {
     updateFile: (filePath, data) => {
@@ -56,7 +56,13 @@ const Session = {
     },
 
     loadHistorySession: async () => {
-        await Session.loadFile()
+        try {
+            await Session.loadFile()
+        } catch (err) {
+            console.log('File not exist,using default values.')
+        }
+
+        return Promise.resolve()
     },
 
     updateSessionHistory: () => {

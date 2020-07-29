@@ -8,17 +8,22 @@ window.preload.Session.loadHistorySession().finally(() => {
         el: '#RequestTool',
 
         created: function () {
-            if (!window.preload.Session.session.contentType) {
-                this.ContentType = this.ContentTypeList[0]
-            } else {
+            if (window.preload.Session.session.url) {
+                this.url = window.preload.Session.session.url
+            }
+
+            if (window.preload.Session.session.contentType) {
                 this.ContentType = window.preload.Session.session.contentType
             }
 
-            if (!window.preload.Session.session.method) {
-                this.method = this.methodList[0]
-            } else {
+            if (window.preload.Session.session.method) {
                 this.method = window.preload.Session.session.method
             }
+
+            if (window.preload.Session.session.formList) {
+                this.formList = window.preload.Session.session.formList
+            }
+
         },
         mounted() {
             document.body.style.display = 'inline'
@@ -26,8 +31,8 @@ window.preload.Session.loadHistorySession().finally(() => {
 
         data: {
             url: '',
-            method: '',
-            ContentType: '',
+            method: 'GET',
+            ContentType: 'application/json',
             response: '',
             isPreserveResponse: false,
 
@@ -122,6 +127,7 @@ window.preload.Session.loadHistorySession().finally(() => {
             getParam: function () {
                 if (this.ContentType == 'application/json') {
                     var result = {}
+                    this.clearFormList()
 
                     try {
                         result = JSON.parse(this.jsonInput)
@@ -145,6 +151,7 @@ window.preload.Session.loadHistorySession().finally(() => {
 
             getAxios: function () {
                 if (this.method == 'GET') {
+                    this.clearFormList()
                     return axios.get(this.url)
                 } else {
                     var param = this.getParam()
@@ -153,17 +160,19 @@ window.preload.Session.loadHistorySession().finally(() => {
             },
 
             requestWithAxios: function () {
-                window.preload.Session.session.contentType = this.ContentType
-                window.preload.Session.session.method = this.method
-                window.preload.Session.updateSessionHistory()
-
                 this.prepareUrl()
 
                 this.getAxios().then(
                     response => this.printResponse((response.data))
                 ).catch(
                     error => { this.printResponse('err'); console.log(error) }
-                )
+                ).finally(() => {
+                    window.preload.Session.session.url = this.url
+                    window.preload.Session.session.method = this.method
+                    window.preload.Session.session.contentType = this.ContentType
+                    if (this.formList.length != 0) window.preload.Session.session.formList = this.formList
+                    window.preload.Session.updateSessionHistory()
+                })
             },
 
             prepareUrl: function () {
@@ -178,6 +187,14 @@ window.preload.Session.loadHistorySession().finally(() => {
                 }
 
                 this.response = msg
+            },
+
+            clearFormList: function () {
+                this.formList = []
+            },
+
+            clearJsonInput: function () {
+                this.jsonInput = ''
             }
         }
     })
