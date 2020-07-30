@@ -6,7 +6,14 @@
         {
             "label": "package Electron",
             "type": "shell",
-            "command": "set ELECTRON_MIRROR=https://npm.taobao.org/mirrors/electron/&&electron-packager . --overwrite",
+            "command": "taskkill /f /im toolkit*&&set ELECTRON_MIRROR=https://npm.taobao.org/mirrors/electron/&&electron-packager . --overwrite"
+        },
+        {
+            "type": "npm",
+            "script": "install",
+            "problemMatcher": [],
+            "label": "npm: install",
+            "detail": "install dependencies from package"
         }
     ]
 }

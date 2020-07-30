@@ -18,6 +18,9 @@ window.preload = {
     switchDevTools: switchDevTools
 }
 
+window.AddErrLog = (s) => { log.err(s) }
+window.AddInfoLog = (s) => { log.info(s) }
+
 window.addEventListener('keydown', (ev) => {
     if (ev.key == 'F12') {
         switchDevTools()

@@ -31,7 +31,7 @@ window.preload.Session.loadHistorySession().finally(() => {
 
         data: {
             url: '',
-            method: 'GET',
+            method: 'POST',
             ContentType: 'application/json',
             response: '',
             isPreserveResponse: false,
