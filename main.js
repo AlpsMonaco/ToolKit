@@ -9,7 +9,6 @@ nativeTheme.themeSource = 'light'
 app.whenReady().then(() => {
   window = createMainWindow()
   Menu.setApplicationMenu(null)
-
 })
 
 var createMainWindow = () => {
@@ -20,9 +19,7 @@ var createMainWindow = () => {
       preload: path.join(ScriptPath, 'preload.js'),
     }
   })
-
   window.loadFile('index.html')
-
   return window
 }
 

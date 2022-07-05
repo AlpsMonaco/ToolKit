@@ -2,28 +2,22 @@
 //动态添加post表单数据
 //动态添加header
 //get/post请求
-
 window.preload.Session.loadHistorySession().finally(() => {
     var RequestTool = new Vue({
         el: '#RequestTool',
-
         created: function () {
             if (window.preload.Session.session.url) {
                 this.url = window.preload.Session.session.url
             }
-
             if (window.preload.Session.session.contentType) {
                 this.ContentType = window.preload.Session.session.contentType
             }
-
             if (window.preload.Session.session.method) {
                 this.method = window.preload.Session.session.method
             }
-
             if (window.preload.Session.session.formList) {
                 this.formList = window.preload.Session.session.formList
             }
-
         },
         mounted() {
             document.body.style.display = 'inline'
@@ -35,17 +29,10 @@ window.preload.Session.loadHistorySession().finally(() => {
             ContentType: 'application/json',
             response: '',
             isPreserveResponse: false,
-
             methodList: ['GET', 'POST'],
             ContentTypeList: ['application/json', 'application/x-www-form-urlencoded',],
-
             addContentType: false,
-            // showFormList: false,
-            // showJsonArea: false,
-            // showContentType: false,
-
             customizedContentType: '',
-
             formList: [],
             jsonInput: ""
         },
@@ -55,7 +42,6 @@ window.preload.Session.loadHistorySession().finally(() => {
                 if (this.method == 'GET' || this.ContentType != 'application/x-www-form-urlencoded') {
                     return false
                 }
-
                 return true
             },
 
@@ -63,7 +49,6 @@ window.preload.Session.loadHistorySession().finally(() => {
                 if (this.method == 'GET' || this.ContentType != 'application/json') {
                     return false
                 }
-
                 return true
             },
 
@@ -82,12 +67,10 @@ window.preload.Session.loadHistorySession().finally(() => {
                 if (this.customizedContentType == '') {
                     return
                 }
-
                 this.ContentTypeList.pop()
                 this.ContentTypeList.push(this.customizedContentType)
                 this.ContentTypeList.push("自定义")
                 this.ContentType = this.customizedContentType
-
                 this.cancelAddContentType()
             },
 
@@ -109,18 +92,15 @@ window.preload.Session.loadHistorySession().finally(() => {
                     data = `+ str + `
                     `)
                 }
-
                 try {
                     f(this.jsonInput)
                 } catch (error) {
                     console.log(error)
                     return
                 }
-
                 if (!data) {
                     return
                 }
-
                 this.jsonInput = JSON.stringify(data, null, 4)
             },
 
@@ -128,13 +108,11 @@ window.preload.Session.loadHistorySession().finally(() => {
                 if (this.ContentType == 'application/json') {
                     var result = {}
                     this.clearFormList()
-
                     try {
                         result = JSON.parse(this.jsonInput)
                     } catch (error) {
                         console.log(error)
                     }
-
                     return result
 
                 } else {
@@ -161,7 +139,6 @@ window.preload.Session.loadHistorySession().finally(() => {
 
             requestWithAxios: function () {
                 this.prepareUrl()
-
                 this.getAxios().then(
                     response => this.printResponse((response.data))
                 ).catch(
@@ -185,7 +162,6 @@ window.preload.Session.loadHistorySession().finally(() => {
                 if (this.isPreserveResponse) {
                     msg = this.response + '<br>' + msg
                 }
-
                 this.response = msg
             },
 

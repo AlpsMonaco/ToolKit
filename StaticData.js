@@ -36,14 +36,12 @@ const Session = {
 
     loadFile: async () => {
         let data = await excludeRW.readFile(Session.filePath)
-
         try {
             Session.session = JSON.parse(data)
         } catch (error) {
             return Promise.reject(error)
         }
     },
-
     updateFile: async () => {
         var data
         try {
@@ -54,7 +52,6 @@ const Session = {
 
         await excludeRW.updateFile(Session.filePath, data)
     },
-
     loadHistorySession: async () => {
         try {
             await Session.loadFile()
@@ -64,7 +61,6 @@ const Session = {
 
         return Promise.resolve()
     },
-
     updateSessionHistory: () => {
         Session.updateFile().catch(err => log.error(err)).then(() => log.info('save session successfully.'))
     }

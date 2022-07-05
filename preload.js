@@ -1,6 +1,6 @@
 const { log } = require('./log')
 const { Session } = require('./StaticData')
-const { ipcRenderer } = require('electron')
+const { ipcRenderer, contextBridge } = require('electron')
 
 //Load last session preferences.
 Session.loadFile().then(() => {
@@ -13,13 +13,10 @@ var switchDevTools = () => {
     ipcRenderer.send('switchDevTools')
 }
 
-window.preload = {
+contextBridge.exposeInMainWorld('preload', {
     Session: Session,
     switchDevTools: switchDevTools
-}
-
-window.AddErrLog = (s) => { log.err(s) }
-window.AddInfoLog = (s) => { log.info(s) }
+})
 
 window.addEventListener('keydown', (ev) => {
     if (ev.key == 'F12') {
