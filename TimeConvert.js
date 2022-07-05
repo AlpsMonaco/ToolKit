@@ -24,7 +24,6 @@ var TimeConvert = new Vue({
             var inputTime = this.inputTime
             if (this.isDateTimeFormat()) {
                 var result = this.convertDateToTimstamp(this.inputTime)
-
                 if (!result) {
                     this.setConvertResult("请输入正确的时间格式!")
                 } else {
@@ -91,7 +90,7 @@ var TimeConvert = new Vue({
         },
 
         selectInputTimeAll: function (e) {
-            e.toElement.select()
+            e.target.select()
             clearInterval(this.timeInterval)
         },
 
